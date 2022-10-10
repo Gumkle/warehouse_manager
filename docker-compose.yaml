@@ -1,0 +1,24 @@
+version: '3'
+services:
+  web:
+    image: nginx
+    volumes:
+      - ./docker/nginx/conf:/etc/nginx/conf.d
+      - .:/app
+      - ./docker/nginx/logs:/var/log/nginx
+    ports:
+      - "8080:80"
+  app:
+    build: .
+    volumes:
+      - .:/app
+
+  database:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=invoice
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+    volumes:
+      - ./docker/mysql/storage:/var/lib/mysql
